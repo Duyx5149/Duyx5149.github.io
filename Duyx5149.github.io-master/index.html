@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Yixuan Du - Personal Homepage</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg-sidebar: #1e2a3a;
+    --bg-sidebar-hover: rgba(255,255,255,0.04);
+    --bg-main: #f4f6f8;
+    --bg-paper: #ffffff;
+    --text-primary: #1a2332;
+    --text-secondary: #5a6a7a;
+    --text-sidebar: #e2e8f0;
+    --text-sidebar-muted: #8a9bb0;
+    --accent: #5b7a9d;
+    --accent-hover: #4a6a8d;
+    --accent-light: rgba(91,122,157,0.08);
+    --border: #dde3ea;
+    --radius: 6px;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'IBM Plex Sans', -apple-system, sans-serif;
+    background: var(--bg-main);
+    color: var(--text-primary);
+    line-height: 1.7;
+    min-height: 100vh;
+  }
+
+  .page-wrapper { display: flex; min-height: 100vh; }
+
+  /* ===== SIDEBAR ===== */
+  .sidebar {
+    position: sticky; top: 0; width: 300px; min-width: 300px; height: 100vh;
+    background: var(--bg-sidebar);
+    display: flex; flex-direction: column; align-items: center;
+    padding: 48px 24px 32px; overflow-y: auto;
+  }
+
+  .profile-photo {
+    width: 160px; height: 160px; border-radius: 50%; overflow: hidden;
+    border: 3px solid var(--accent);
+    box-shadow: 0 0 0 5px rgba(91,122,157,0.15);
+    margin-bottom: 24px; background: #263a50;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--text-sidebar-muted); font-size: 13px; text-align: center;
+  }
+  .profile-photo img { width: 100%; height: 100%; object-fit: cover; }
+
+  .profile-name { font-size: 22px; font-weight: 600; color: var(--text-sidebar); margin-bottom: 4px; letter-spacing: 0.3px; }
+  .profile-name-cn { font-size: 14px; color: var(--text-sidebar-muted); margin-bottom: 24px; letter-spacing: 1.5px; font-weight: 300; }
+
+  .profile-info { width: 100%; padding: 20px 0; border-top: 1px solid rgba(255,255,255,0.06); }
+  .profile-info-item {
+    display: flex; align-items: flex-start; gap: 10px;
+    margin-bottom: 12px; font-size: 13.5px; color: var(--text-sidebar-muted); line-height: 1.5;
+  }
+  .profile-info-item .icon { flex-shrink: 0; width: 16px; margin-top: 3px; opacity: 0.5; }
+  .profile-info-item .icon svg { width: 14px; height: 14px; fill: var(--text-sidebar-muted); }
+  .profile-info-item a { color: var(--text-sidebar-muted); text-decoration: none; transition: color 0.2s; }
+  .profile-info-item a:hover { color: var(--text-sidebar); }
+
+  .social-links { display: flex; gap: 8px; margin-top: 20px; }
+  .social-links a {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 36px; height: 36px; border-radius: 6px;
+    background: rgba(255,255,255,0.04); color: var(--text-sidebar-muted);
+    text-decoration: none; transition: all 0.25s; border: 1px solid rgba(255,255,255,0.06);
+  }
+  .social-links a:hover {
+    background: var(--accent); color: #fff;
+    transform: translateY(-2px); box-shadow: 0 4px 12px rgba(91,122,157,0.3);
+  }
+  .social-links a svg { width: 16px; height: 16px; fill: currentColor; }
+
+  .sidebar-nav { width: 100%; margin-top: auto; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.06); }
+  .sidebar-nav a {
+    display: block; padding: 8px 14px; color: var(--text-sidebar-muted);
+    text-decoration: none; font-size: 13.5px; font-weight: 500;
+    border-radius: 4px; transition: all 0.15s; margin-bottom: 1px;
+  }
+  .sidebar-nav a:hover { background: var(--bg-sidebar-hover); color: var(--text-sidebar); }
+  .sidebar-nav a.active { color: var(--text-sidebar); background: rgba(255,255,255,0.06); }
+
+  /* ===== MAIN ===== */
+  .main-content { flex: 1; padding: 48px 56px 72px; max-width: 860px; }
+  .section { margin-bottom: 48px; }
+  .section-title {
+    font-size: 18px; font-weight: 600; color: var(--text-primary);
+    margin-bottom: 20px; padding-bottom: 10px; border-bottom: 1.5px solid var(--border);
+  }
+  .section-title .emoji { margin-right: 6px; }
+
+  .about-text { font-size: 15px; line-height: 1.8; color: var(--text-secondary); }
+  .about-text a { color: var(--accent); text-decoration: none; transition: color 0.15s; }
+  .about-text a:hover { color: var(--accent-hover); text-decoration: underline; }
+  .about-text strong { color: var(--text-primary); font-weight: 600; }
+
+  .news-list { list-style: none; max-height: 320px; overflow-y: auto; padding-right: 6px; }
+  .news-list::-webkit-scrollbar { width: 3px; }
+  .news-list::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+  .news-item { display: flex; gap: 14px; padding: 10px 0; border-bottom: 1px solid rgba(0,0,0,0.03); font-size: 13.5px; line-height: 1.6; }
+  .news-date { flex-shrink: 0; width: 72px; color: var(--text-secondary); font-family: 'IBM Plex Mono', monospace; font-size: 12px; padding-top: 2px; }
+  .news-content { color: var(--text-secondary); }
+  .news-content strong { color: var(--text-primary); font-weight: 600; }
+
+  /* Publications */
+  .pub-filters { display: flex; gap: 6px; margin-bottom: 20px; flex-wrap: wrap; }
+  .pub-filter-btn {
+    padding: 5px 14px; border: 1px solid var(--border); border-radius: 4px;
+    background: var(--bg-paper); color: var(--text-secondary); font-size: 12.5px;
+    cursor: pointer; transition: all 0.15s; font-family: inherit;
+  }
+  .pub-filter-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .pub-filter-btn.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+
+  .pub-entry {
+    display: flex; gap: 20px; padding: 20px 0;
+    border-bottom: 1px solid rgba(0,0,0,0.04); align-items: flex-start; transition: all 0.2s;
+  }
+  .pub-entry:hover {
+    background: var(--accent-light); margin: 0 -12px;
+    padding-left: 12px; padding-right: 12px; border-radius: 6px;
+  }
+  .pub-thumb {
+    flex-shrink: 0; width: 150px; height: 94px; border-radius: var(--radius); overflow: hidden;
+    background: #e8ecf0; border: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: center; color: var(--text-secondary); font-size: 11px;
+  }
+  .pub-thumb img { width: 100%; height: 100%; object-fit: cover; }
+  .pub-details { flex: 1; min-width: 0; }
+  .pub-venue {
+    display: inline-block; font-family: 'IBM Plex Mono', monospace; font-size: 11px; font-weight: 600;
+    color: var(--accent); background: var(--accent-light); padding: 2px 8px; border-radius: 3px;
+    margin-bottom: 6px; letter-spacing: 0.3px;
+  }
+  .pub-title { font-size: 14.5px; font-weight: 600; color: var(--text-primary); margin-bottom: 5px; line-height: 1.4; }
+  .pub-title a { color: inherit; text-decoration: none; transition: color 0.15s; }
+  .pub-title a:hover { color: var(--accent); }
+  .pub-authors { font-size: 13px; color: var(--text-secondary); line-height: 1.5; margin-bottom: 6px; }
+  .pub-authors .me { font-weight: 600; color: var(--text-primary); }
+  .pub-links { display: flex; gap: 6px; flex-wrap: wrap; }
+  .pub-link {
+    font-size: 11.5px; padding: 2px 8px; border-radius: 3px; color: var(--text-secondary);
+    text-decoration: none; background: rgba(0,0,0,0.03); border: 1px solid var(--border);
+    transition: all 0.15s; font-family: 'IBM Plex Mono', monospace;
+  }
+  .pub-link:hover { border-color: var(--accent); color: var(--accent); }
+  .pub-badge {
+    display: inline-block; font-size: 10.5px; padding: 1px 7px; border-radius: 3px;
+    background: #c0392b; color: #fff; font-weight: 600; margin-left: 4px; vertical-align: middle;
+  }
+  .pub-note {
+    display: block; font-size: 11.5px; color: #c0392b; margin-top: 4px; font-weight: 600;
+  }
+
+  /* Education & Internship */
+  .edu-item {
+    display: flex; gap: 16px; align-items: center; padding: 16px 0;
+    border-bottom: 1px solid rgba(0,0,0,0.03);
+  }
+  .edu-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); flex-shrink: 0; opacity: 0.6; }
+  .edu-info h4 { font-size: 14px; font-weight: 600; margin-bottom: 1px; }
+  .edu-info p { font-size: 13px; color: var(--text-secondary); }
+  .edu-info a { color: var(--accent); text-decoration: none; }
+  .edu-info a:hover { text-decoration: underline; }
+  .edu-date { font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: var(--text-secondary); margin-left: auto; flex-shrink: 0; }
+
+  .footer { text-align: center; padding: 28px 0 0; font-size: 12.5px; color: var(--text-secondary); border-top: 1px solid var(--border); margin-top: 32px; }
+
+  /* Fade in */
+  .fade-in { opacity: 0; transform: translateY(14px); animation: fadeUp 0.45s ease forwards; }
+  @keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
+  .section:nth-child(1) { animation-delay: 0.05s; }
+  .section:nth-child(2) { animation-delay: 0.15s; }
+  .section:nth-child(3) { animation-delay: 0.25s; }
+  .section:nth-child(4) { animation-delay: 0.35s; }
+  .section:nth-child(5) { animation-delay: 0.45s; }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .page-wrapper { flex-direction: column; }
+    .sidebar { position: relative; width: 100%; min-width: unset; height: auto; padding: 32px 24px; }
+    .main-content { padding: 28px 20px 40px; }
+    .pub-entry { flex-direction: column; }
+    .pub-thumb { width: 100%; height: 120px; }
+    .edu-item { flex-wrap: wrap; }
+    .edu-date { margin-left: 0; width: 100%; padding-left: 24px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="page-wrapper">
+
+  <!-- ===== SIDEBAR ===== -->
+  <aside class="sidebar">
+    <div class="profile-photo" id="profile-photo">
+      <span>Loading...</span>
+    </div>
+    <h1 class="profile-name" id="profile-name"></h1>
+    <p class="profile-name-cn" id="profile-name-cn"></p>
+    <div class="profile-info" id="profile-info"></div>
+    <div class="social-links" id="social-links"></div>
+    <nav class="sidebar-nav">
+      <a href="#about" class="active">About</a>
+      <a href="#news">News</a>
+      <a href="#publications">Publications</a>
+      <a href="#education">Education</a>
+      <a href="#internship">Internship</a>
+    </nav>
+  </aside>
+
+  <!-- ===== MAIN ===== -->
+  <main class="main-content">
+
+    <section class="section fade-in" id="about">
+      <h2 class="section-title"><span class="emoji">👋</span>About Me</h2>
+      <p class="about-text" id="bio"></p>
+    </section>
+
+    <section class="section fade-in" id="news">
+      <h2 class="section-title"><span class="emoji">🔥</span>News</h2>
+      <ul class="news-list" id="news-list"></ul>
+    </section>
+
+    <section class="section fade-in" id="publications">
+      <h2 class="section-title"><span class="emoji">📃</span>Publications</h2>
+      <p style="font-size:13px; color:var(--text-secondary); margin-bottom:16px;" id="pub-note"></p>
+      <div class="pub-filters" id="pub-filters"></div>
+      <div id="pub-list"></div>
+    </section>
+
+    <section class="section fade-in" id="education">
+      <h2 class="section-title"><span class="emoji">📖</span>Education</h2>
+      <div id="edu-list"></div>
+    </section>
+
+    <section class="section fade-in" id="internship">
+      <h2 class="section-title"><span class="emoji">💼</span>Internship</h2>
+      <div id="intern-list"></div>
+    </section>
+
+    <div class="footer">
+      <p id="footer-text"></p>
+    </div>
+
+  </main>
+</div>
+
+<script>
+/* ===== Icon library ===== */
+const SOCIAL_ICONS = {
+  scholar: '<svg viewBox="0 0 24 24"><path d="M12 24a7 7 0 1 1 0-14 7 7 0 0 1 0 14zm0-24L0 9.5l4.838 3.94A8 8 0 0 1 12 9a8 8 0 0 1 7.162 4.44L24 9.5z"/></svg>',
+  github: '<svg viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>',
+  linkedin: '<svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>',
+  twitter: '<svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>'
+};
+
+const SIDEBAR_ICONS = {
+  education: '<svg viewBox="0 0 24 24"><path d="M12 3L1 9l4 2.18v6L12 21l7-3.82v-6l2-1.09V17h2V9L12 3zm6.82 6L12 12.72 5.18 9 12 5.28 18.82 9zM17 15.99l-5 2.73-5-2.73v-3.72L12 15l5-2.73v3.72z"/></svg>',
+  department: '<svg viewBox="0 0 24 24"><path d="M12 7V3H2v18h20V7H12zM6 19H4v-2h2v2zm0-4H4v-2h2v2zm0-4H4V9h2v2zm0-4H4V5h2v2zm4 12H8v-2h2v2zm0-4H8v-2h2v2zm0-4H8V9h2v2zm0-4H8V5h2v2zm10 12h-8v-2h2v-2h-2v-2h2v-2h-2V9h8v10zm-2-8h-2v2h2v-2zm0 4h-2v2h2v-2z"/></svg>',
+  location: '<svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>',
+  email: '<svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>'
+};
+
+/* ===== Helper: render <me>...</me> as bold ===== */
+function renderAuthors(str) {
+  return str.replace(/<me>(.*?)<\/me>/g, '<span class="me">$1</span>');
+}
+
+/* ===== Main render ===== */
+async function init() {
+  const res = await fetch('data.json');
+  const data = await res.json();
+  const p = data.profile;
+
+  // --- Sidebar ---
+  document.title = `${p.name_en} - Personal Homepage`;
+  document.getElementById('profile-name').textContent = p.name_en;
+  document.getElementById('profile-name-cn').textContent = p.name_cn;
+
+  if (p.photo) {
+    document.getElementById('profile-photo').innerHTML = `<img src="${p.photo}" alt="${p.name_en}">`;
+  }
+
+  const infoHTML = `
+    <div class="profile-info-item">
+      <span class="icon">${SIDEBAR_ICONS.education}</span>
+      <span>${p.title}<br><strong style="color:#e2e8f0">${p.affiliation}</strong></span>
+    </div>
+    <div class="profile-info-item">
+      <span class="icon">${SIDEBAR_ICONS.department}</span>
+      <span>${p.department}</span>
+    </div>
+    <div class="profile-info-item">
+      <span class="icon">${SIDEBAR_ICONS.location}</span>
+      <span>${p.location}</span>
+    </div>
+    <div class="profile-info-item">
+      <span class="icon">${SIDEBAR_ICONS.email}</span>
+      <a href="mailto:${p.email}">${p.email}</a>
+    </div>
+  `;
+  document.getElementById('profile-info').innerHTML = infoHTML;
+
+  const socialHTML = p.social.map(s =>
+    `<a href="${s.url}" title="${s.name}" target="_blank">${SOCIAL_ICONS[s.icon] || ''}</a>`
+  ).join('');
+  document.getElementById('social-links').innerHTML = socialHTML;
+
+  // --- Bio ---
+  document.getElementById('bio').innerHTML = p.bio;
+
+  // --- News ---
+  const newsHTML = data.news.map(n =>
+    `<li class="news-item"><span class="news-date">${n.date}</span><span class="news-content">${n.content}</span></li>`
+  ).join('');
+  document.getElementById('news-list').innerHTML = newsHTML;
+
+  // --- Publications ---
+  const pubs = data.publications;
+  document.getElementById('pub-note').innerHTML = pubs.note;
+
+  const filtersHTML = pubs.filters.map((f, i) =>
+    `<button class="pub-filter-btn${i === 0 ? ' active' : ''}" data-filter="${f}">${f}</button>`
+  ).join('');
+  document.getElementById('pub-filters').innerHTML = filtersHTML;
+
+  const pubsHTML = pubs.papers.map(paper => {
+    const firstLink = paper.links[0]?.url || '#';
+    const thumbContent = paper.thumbnail
+      ? `<img src="${paper.thumbnail}" alt="${paper.title}">`
+      : 'Paper Fig';
+    const badgeHTML = paper.badge
+      ? `<span class="pub-badge">${paper.badge}</span>` : '';
+    const noteHTML = paper.note
+      ? `<span class="pub-note">${paper.note}</span>` : '';
+    const linksHTML = paper.links.map(l =>
+      `<a href="${l.url}" class="pub-link" target="_blank">${l.label}</a>`
+    ).join('');
+
+    return `
+      <div class="pub-entry" data-tags="${paper.tags.join(',')}">
+        <div class="pub-thumb">${thumbContent}</div>
+        <div class="pub-details">
+          <span class="pub-venue">${paper.venue}</span>${badgeHTML}
+          <h3 class="pub-title"><a href="${firstLink}" target="_blank">${paper.title}</a></h3>
+          <p class="pub-authors">${renderAuthors(paper.authors)}</p>
+          <div class="pub-links">${linksHTML}</div>
+          ${noteHTML}
+        </div>
+      </div>
+    `;
+  }).join('');
+  document.getElementById('pub-list').innerHTML = pubsHTML;
+
+  // Filter logic
+  document.querySelectorAll('.pub-filter-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+      document.querySelectorAll('.pub-filter-btn').forEach(b => b.classList.remove('active'));
+      this.classList.add('active');
+      const filter = this.dataset.filter;
+      document.querySelectorAll('.pub-entry').forEach(entry => {
+        entry.style.display = (filter === 'All' || entry.dataset.tags.includes(filter)) ? 'flex' : 'none';
+      });
+    });
+  });
+
+  // --- Education ---
+  const eduHTML = data.education.map(e => `
+    <div class="edu-item">
+      <div class="edu-dot"></div>
+      <div class="edu-info">
+        <h4>${e.degree}</h4>
+        <p>${e.school}</p>
+      </div>
+      <span class="edu-date">${e.start} – ${e.end}</span>
+    </div>
+  `).join('');
+  document.getElementById('edu-list').innerHTML = eduHTML;
+
+  // --- Internship ---
+  const internHTML = data.internship.map(i => `
+    <div class="edu-item">
+      <div class="edu-dot"></div>
+      <div class="edu-info">
+        <h4>${i.title}</h4>
+        <p><a href="${i.org_url}" target="_blank">${i.organization}</a><br>
+        Supervised by <a href="${i.supervisor_url}" target="_blank">${i.supervisor}</a></p>
+      </div>
+      <span class="edu-date">${i.start} – ${i.end}</span>
+    </div>
+  `).join('');
+  document.getElementById('intern-list').innerHTML = internHTML;
+
+  // --- Footer ---
+  const year = new Date().getFullYear();
+  document.getElementById('footer-text').textContent = `© ${year} ${p.name_en}`;
+}
+
+// Smooth scroll & scroll spy
+document.querySelectorAll('.sidebar-nav a').forEach(link => {
+  link.addEventListener('click', function(e) {
+    const href = this.getAttribute('href');
+    if (href.startsWith('#')) {
+      e.preventDefault();
+      const target = document.querySelector(href);
+      if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      document.querySelectorAll('.sidebar-nav a').forEach(a => a.classList.remove('active'));
+      this.classList.add('active');
+    }
+  });
+});
+
+window.addEventListener('scroll', () => {
+  let current = '';
+  document.querySelectorAll('.section[id]').forEach(s => {
+    if (s.getBoundingClientRect().top <= 120) current = s.id;
+  });
+  document.querySelectorAll('.sidebar-nav a').forEach(link => {
+    link.classList.toggle('active', link.getAttribute('href') === '#' + current);
+  });
+});
+
+init();
+</script>
+
+</body>
+</html>
